@@ -1,14 +1,16 @@
 <template>
-    <h1>{{titulo}}</h1>
+    <h1>{{encabezado}} : {{ valor2 }}</h1>
 
     <p>{{ numero }} <sup>2</sup> = {{ calcularCuadradoComputado}}</p>
     <p>{{ numero }} <sup>2</sup> = {{ calcularCuadradoComputado}}</p>
-    <p>{{ numero }} <sup>2</sup> = {{ calcularCuadradoComputado}}</p>
-    <p>{{ numero }} <sup>2</sup> = {{ calcularCuadradoComputado}}</p>
-    <p>{{ numero }} <sup>2</sup> = {{ calcularCuadradoComputado}}</p>
+    
     <div>
-        <button v-on:click="incremetar()">+1</button>
+        <button @:click="incremetar()">+1</button>
         <button v-on:click="decrementar()">-1</button>
+
+    </div>
+    <div v-if="esVerdad">
+        <h1>Feliz navidad</h1>
 
     </div>
     
@@ -20,7 +22,7 @@
 export default {
     data(){
         return{
-            numero: 50,
+            numero: this.valor,
             titulo: 'Contador'
         }
     },
@@ -42,13 +44,45 @@ export default {
         //se debe llamar como propiedad computada
         calcularCuadradoComputado(){
             console.log('Entro calcularCuadradoComputado');
+        
             return this.numero*this.numero; 
         }
-    }
-    
+    },
+    //se puede utilizar como propiedad reactiva
+    //1 forma de declarar un props
+   // props:['encabezado','valor']
+    //2 forma
+    props:{
+        encabezado: {
+            type: String,
+            validator(value) {
+            return typeof value === 'string' && value.trim().length > 0 && !value.includes('a');
+            }
+        },
+        valor: Number,
+        valor2:{
+            type: Number,
+            requeried:false,
+            default:77, //este valor a salir cuando no requerido
+            validator(value){
+                //value es el valor que envia ES EL PROPS
+                //programo mi vlaidacion bajo mi criterio y retorno true
+                //cuando es valido para mi 
+                //retorno false cuando no es valido para mi
+                return value<=77;
 
+            }
+        },
+        esVerdad: {
+            type:Boolean,
+            required:true
+        },
+        arreglo: Array,
+        fecha: Date,
+        objetoPersona: Object,
 
-}
+    },   
+};
 
 </script>
 
